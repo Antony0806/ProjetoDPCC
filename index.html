@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cuidado Antes de Clicar | Cibersegurança</title>
+<meta content="Site acadêmico sobre conscientização digital e segurança na internet." name="description"/>
+<style>
+    :root {
+      --bg: #030813;
+      --bg-2: #091727;
+      --surface: rgba(10, 21, 38, 0.88);
+      --surface-2: rgba(13, 28, 49, 0.92);
+      --surface-3: rgba(255,255,255,0.04);
+      --text: #eef6ff;
+      --muted: #adc1d6;
+      --line: rgba(45, 217, 255, 0.18);
+      --line-strong: rgba(45, 217, 255, 0.28);
+      --cyan: #2dd9ff;
+      --green: #63ffc6;
+      --blue: #4f7cff;
+      --yellow: #ffd15f;
+      --danger: #ff5f7e;
+      --shadow: 0 28px 90px rgba(0,0,0,0.42);
+      --radius-xl: 34px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(45,217,255,0.16), transparent 30%),
+        radial-gradient(circle at 90% 2%, rgba(99,255,198,0.12), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(79,124,255,0.18), transparent 30%),
+        linear-gradient(135deg, #02040b 0%, #06101d 42%, #09192c 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black 0%, transparent 88%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "CYBER SECURITY • PHISHING • HTTPS • PASSWORD • 2FA • FIREWALL";
+      position: fixed;
+      top: 20%;
+      left: -8%;
+      width: 130%;
+      font-size: clamp(3rem, 10vw, 10rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(255,255,255,0.025);
+      transform: rotate(-8deg);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    .container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(3,8,19,0.76);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo-card {
+      min-width: 210px;
+      height: 70px;
+      padding: 10px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+
+    .logo-card.course {
+      min-width: 340px;
+      background: linear-gradient(180deg, rgba(6,14,24,0.95), rgba(9,18,32,0.95));
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .logo-card.atitus {
+      min-width: 210px;
+      background: linear-gradient(180deg, rgba(7,15,26,0.98), rgba(9,20,34,0.98));
+      border-color: rgba(255,255,255,0.10);
+      box-shadow: inset 0 0 22px rgba(255,255,255,0.03), 0 0 26px rgba(45,217,255,0.05);
+    }
+
+    .logo-card img {
+      max-width: 100%;
+      max-height: 42px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-card.course img {
+      max-height: 54px;
+    }
+
+    .logo-card.atitus img {
+      max-height: 38px;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.10));
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(238,246,255,0.76);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .links a {
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .links a:hover {
+      background: rgba(45,217,255,0.10);
+      color: var(--cyan);
+    }
+
+    .hero { padding: 92px 0 72px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1.12fr) minmax(320px,0.88fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(99,255,198,0.24);
+      background: rgba(99,255,198,0.08);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 24px 0 18px;
+      font-size: clamp(3rem, 7vw, 6.6rem);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .warning {
+      display: block;
+      color: var(--yellow);
+      font-size: clamp(1.5rem, 3vw, 2.7rem);
+      margin-bottom: 12px;
+      letter-spacing: -0.035em;
+      text-shadow: 0 0 28px rgba(255,209,95,0.24);
+    }
+
+    .grad {
+      display: block;
+      background: linear-gradient(90deg, #fff 0%, #daf8ff 32%, var(--cyan) 65%, var(--green) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+      line-height: 1.8;
+    }
+
+    .actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-weight: 800;
+      transition: transform 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary {
+      color: #04111b;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      box-shadow: 0 0 30px rgba(45,217,255,0.16);
+    }
+    .btn.secondary {
+      color: var(--cyan);
+      background: rgba(45,217,255,0.07);
+      border-color: rgba(45,217,255,0.22);
+    }
+
+    .panel {
+      position: relative;
+      min-height: 500px;
+      border-radius: 34px;
+      border: 1px solid var(--line-strong);
+      background:
+        linear-gradient(180deg, rgba(45,217,255,0.10), transparent 34%),
+        rgba(5,14,27,0.80);
+      box-shadow: var(--shadow), inset 0 0 60px rgba(45,217,255,0.06);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(99,255,198,0.12);
+      border-radius: 26px;
+    }
+
+    .shield {
+      width: min(270px, 76%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 48% 48% 54% 54%;
+      transform: rotate(45deg);
+      background:
+        radial-gradient(circle at 50% 36%, rgba(255,255,255,0.20), transparent 16%),
+        linear-gradient(135deg, rgba(45,217,255,0.32), rgba(99,255,198,0.18));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 0 56px rgba(45,217,255,0.26);
+    }
+
+    .shield span {
+      transform: rotate(-45deg);
+      font-size: clamp(4.4rem, 10vw, 6.8rem);
+      filter: drop-shadow(0 0 20px rgba(99,255,198,0.42));
+    }
+
+    .terminal {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: 26px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(99,255,198,0.18);
+      background: rgba(0,0,0,0.44);
+      color: rgba(225,255,244,0.78);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+    .terminal b { color: var(--green); }
+
+    section { scroll-margin-top: 100px; }
+    .section { padding: 78px 0; }
+    .section-head { max-width: 860px; margin-bottom: 30px; }
+    .eyebrow {
+      display: inline-flex;
+      margin-bottom: 14px;
+      color: var(--cyan);
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 4vw, 3.9rem);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+    p { margin: 0 0 16px; color: var(--muted); line-height: 1.76; }
+    .lead { color: #e8f8ff; font-size: 1.1rem; }
+
+    .intro { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 18px; }
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--surface);
+      padding: 28px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+    }
+    .highlight {
+      border-color: rgba(45,217,255,0.24);
+      background: linear-gradient(135deg, rgba(45,217,255,0.10), rgba(99,255,198,0.05)), var(--surface);
+    }
+
+    .risks { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 24px; }
+    .risk {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      padding: 24px;
+    }
+    .risk::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -48px;
+      bottom: -50px;
+      border-radius: 50%;
+      background: rgba(45,217,255,0.12);
+    }
+    .ico {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(45,217,255,0.10);
+      border: 1px solid rgba(45,217,255,0.18);
+      font-size: 1.55rem;
+      margin-bottom: 18px;
+    }
+
+    .rules-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .rules-note {
+      max-width: 340px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(99,255,198,0.18);
+      background: rgba(99,255,198,0.06);
+      color: #dffdf0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .rules {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 18px;
+    }
+
+    .rule {
+      position: relative;
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 18px;
+      align-items: flex-start;
+      border-radius: 26px;
+      border: 1px solid rgba(45,217,255,0.17);
+      background:
+        linear-gradient(180deg, rgba(45,217,255,0.07), rgba(255,255,255,0.025)),
+        rgba(7,17,30,0.82);
+      padding: 22px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .rule:nth-child(5) { grid-column: 1 / -1; }
+
+    .rule-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rule-number {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      font-weight: 900;
+      font-size: 1.25rem;
+      border: 1px solid rgba(45,217,255,0.22);
+      background: rgba(45,217,255,0.10);
+      box-shadow: 0 0 20px rgba(45,217,255,0.10);
+    }
+
+    .rule .ico {
+      width: 48px;
+      height: 48px;
+      margin: 0;
+      border-radius: 16px;
+      background: rgba(99,255,198,0.10);
+      border-color: rgba(99,255,198,0.16);
+      font-size: 1.35rem;
+    }
+
+    .rule-tag {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: #dff6ff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rule p { margin: 0; font-size: 0.96rem; line-height: 1.7; }
+
+    .final { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 18px; }
+    .callout {
+      border-radius: 30px;
+      padding: 30px;
+      border: 1px solid rgba(255,209,95,0.22);
+      background: linear-gradient(135deg, rgba(255,209,95,0.12), rgba(255,95,126,0.08)), rgba(12,22,36,0.88);
+    }
+    .checks { display: grid; gap: 10px; margin-top: 18px; }
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.045);
+      color: #e8faff;
+      line-height: 1.55;
+    }
+
+    .footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 34px 0 44px; color: rgba(238,246,255,0.66); }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(45,217,255,0.07);
+      border: 1px solid rgba(45,217,255,0.20);
+      font-weight: 700;
+    }
+
+    .team-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .team-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 10px;
+    }
+
+    .team-names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .team-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      font-size: 0.88rem;
+      color: rgba(238,246,255,0.80);
+      font-weight: 500;
+    }
+
+    .university-logo-round {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid rgba(45,217,255,0.35);
+      box-shadow: 0 0 18px rgba(45,217,255,0.18);
+      overflow: hidden;
+      background: rgba(7,15,26,0.98);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .university-logo-round img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.12));
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid, .intro, .final { grid-template-columns: 1fr; }
+      .risks { grid-template-columns: 1fr; }
+      .rules { grid-template-columns: 1fr; }
+      .rule:nth-child(5) { grid-column: auto; }
+    }
+
+    @media (max-width: 780px) {
+      .container { width: min(100% - 22px, var(--max)); }
+      .nav-inner { min-height: auto; padding: 14px 0; align-items: flex-start; flex-direction: column; }
+      .links { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+      .logos { width: 100%; }
+      .logo-card { min-width: 0; width: 100%; }
+      .hero { padding: 54px 0 44px; }
+      .panel { min-height: 410px; border-radius: 26px; }
+      .terminal { left: 18px; right: 18px; bottom: 18px; font-size: 0.74rem; }
+      .section { padding: 54px 0; }
+      .card, .callout { padding: 22px; }
+      .rule { grid-template-columns: 1fr; }
+      .rule-badge { flex-direction: row; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<nav aria-label="Navegação principal" class="nav">
+<div class="container nav-inner">
+<div class="logos">
+
+<div class="logo-card atitus">
+<img alt="Atitus Educação" src="data:image/png;base64,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"/>
+</div>
+</div>
+<div class="links">
+<a href="#inicio">Início</a>
+<a href="#perigo">O perigo</a>
+<a href="#guia">Guia prático</a>
+<a href="#conclusao">Conclusão</a>
+</div>
+</div>
+</nav>
+<header class="hero" id="inicio">
+<div class="container hero-grid">
+<div>
+<div class="tag">Conscientização digital • Segurança na internet</div>
+<h1>
+<span class="warning">⚠️ CUIDADO ANTES DE CLICAR!</span>
+<span class="grad">Proteja sua família dos vilões da internet</span>
+</h1>
+<p>De crianças a avós, todos estamos conectados. Aprenda regras simples e rápidas para navegar com segurança, evitar golpes virtuais e reduzir riscos no mundo digital.</p>
+<div class="actions">
+<a class="btn primary" href="#guia">Ver regras de segurança</a>
+<a class="btn secondary" href="#perigo">Entender os riscos</a>
+</div>
+</div>
+<aside aria-label="Ilustração de segurança digital" class="panel">
+<div class="shield"><span>🛡️</span></div>
+<div class="terminal">
+<div><b>&gt;</b> analisando_link.exe</div>
+<div><b>&gt;</b> remetente: verificar antes de confiar</div>
+<div><b>&gt;</b> senha: nunca compartilhar</div>
+<div><b>&gt;</b> status: navegação mais segura</div>
+</div>
+</aside>
+</div>
+</header>
+<main>
+<section class="section" id="perigo">
+<div class="container">
+<div class="section-head">
+<span class="eyebrow">O Perigo em um Clique</span>
+<h2>Como proteger sua família dos “vilões” da internet</h2>
+<p class="lead">Imagine que você está caminhando pela rua e um desconhecido lhe oferece uma caixa misteriosa, pedindo que você a abra imediatamente. Você abriria? Provavelmente não.</p>
+</div>
+<div class="intro">
+<article class="card highlight">
+<h3>Na internet, a caixa misteriosa pode ser um link</h3>
+<p>Na internet, milhões de pessoas “abrem essas caixas” todos os dias através de um simples clique. A facilidade da tecnologia trouxe o mundo para as nossas mãos, mas também abriu portas para os chamados golpes virtuais.</p>
+<p>Seja você um jovem que adora jogar no tablet ou um avô que usa o celular para ver fotos da família, a regra é a mesma: no mundo digital, a atenção é o nosso melhor escudo.</p>
+</article>
+<article class="card">
+<h3>Como os cibercriminosos agem</h3>
+<p>Os cibercriminosos — que podemos imaginar como os “vilões” da internet — usam disfarces para entrar nos nossos computadores e celulares. Eles enviam links falsos, e-mails que parecem de empresas famosas ou arquivos disfarçados de presentes.</p>
+<p>O objetivo deles? Roubar nossas informações. Mas não é preciso entrar em pânico: com orientação e cuidado, a internet pode continuar sendo um lugar útil, divertido e seguro.</p>
+</article>
+</div>
+<div class="risks">
+<article class="risk">
+<div class="ico">🎭</div>
+<h3>Perfis e mensagens falsas</h3>
+<p>Golpistas usam nomes falsos, fotos roubadas e histórias urgentes para tentar ganhar confiança rapidamente.</p>
+</article>
+<article class="risk">
+<div class="ico">🔗</div>
+<h3>Links perigosos</h3>
+<p>Um link pode levar a páginas falsas criadas para roubar senhas, dados pessoais ou informações bancárias.</p>
+</article>
+<article class="risk">
+<div class="ico">🦠</div>
+<h3>Anexos contaminados</h3>
+<p>Arquivos aparentemente comuns podem esconder vírus invisíveis que comprometem celulares e computadores.</p>
+</article>
+</div>
+</div>
+</section>
+<section class="section" id="guia">
+<div class="container">
+<div class="rules-head">
+<div class="section-head" style="margin-bottom:0;">
+<span class="eyebrow">Guia prático</span>
+<h2>5 regras de ouro da segurança digital</h2>
+<p>Antes de clicar em qualquer link brilhante, abrir um e-mail ou baixar um joguinho novo, lembre-se destas orientações. São passos tão simples quanto olhar para os dois lados antes de atravessar a rua.</p>
+</div>
+<div class="rules-note">💡 <strong>Dica:</strong> em vez de cinco colunas apertadas, as regras agora aparecem como blocos mais legíveis, com número, ícone e destaque visual para facilitar a leitura do trabalho.</div>
+</div>
+<div class="rules">
+<article class="rule">
+<div class="rule-badge">
+<div class="rule-number">01</div>
+<div class="ico">👤</div>
+</div>
+<div>
+<span class="rule-tag">Verificação</span>
+<h3>Quem está batendo à porta?</h3>
+<p><strong>Verifique o remetente.</strong> Recebeu uma mensagem estranha de um amigo pedindo dinheiro ou um e-mail de um banco no qual você nem tem conta? Pare e olhe com atenção quem enviou. Os golpistas costumam criar nomes falsos ou usar fotos roubadas. Na dúvida, ligue para a pessoa ou pergunte a um adulto de confiança se aquela mensagem é verdadeira.</p>
+</div>
+</article>
+<article class="rule">
+<div class="rule-badge">
+<div class="rule-number">02</div>
+<div class="ico">⏱️</div>
+</div>
+<div>
+<span class="rule-tag">Urgência</span>
+<h3>O truque do “É para ontem!”</h3>
+<p><strong>Desconfie da urgência exagerada.</strong> “Sua conta será bloqueada hoje!” ou “Você ganhou um prêmio, mas precisa clicar agora!”. Os vilões da internet querem que você fique assustado ou muito animado para agir sem pensar. Empresas sérias não exigem decisões correndo por e-mail ou mensagem. Respire fundo e não tenha pressa.</p>
+</div>
+</article>
+<article class="rule">
+<div class="rule-badge">
+<div class="rule-number">03</div>
+<div class="ico">🔑</div>
+</div>
+<div>
+<span class="rule-tag">Senhas</span>
+<h3>A chave da sua casa é só sua</h3>
+<p><strong>Nunca informe senhas.</strong> Pense na sua senha como a chave da porta da sua casa: você não entregaria para um estranho na rua, certo? Nunca, em hipótese alguma, passe suas senhas por e-mail, WhatsApp ou mensagens de texto. Bancos e empresas sérias jamais pedirão sua senha por esses meios.</p>
+</div>
+</article>
+<article class="rule">
+<div class="rule-badge">
+<div class="rule-number">04</div>
+<div class="ico">🔒</div>
+</div>
+<div>
+<span class="rule-tag">Sites seguros</span>
+<h3>Procure o cadeado mágico</h3>
+<p><strong>Confira o “https://”.</strong> Quando for acessar um site, especialmente para fazer compras ou colocar dados importantes, olhe lá em cima na barra de endereço da internet. O endereço deve começar com “https://” (o “s” significa seguro) e ter o desenho de um pequeno cadeado fechado ao lado. Se não tiver, é melhor sair daquele site.</p>
+</div>
+</article>
+<article class="rule">
+<div class="rule-badge">
+<div class="rule-number">05</div>
+<div class="ico">🎁</div>
+</div>
+<div>
+<span class="rule-tag">Anexos</span>
+<h3>O presente misterioso</h3>
+<p><strong>Evite abrir anexos desconhecidos.</strong> Recebeu um arquivo chamado “foto_engracada.zip” ou “fatura_urgente.pdf” de alguém que você não conhece? Não clique! Esses arquivos podem esconder “vírus” invisíveis que entram no seu celular ou computador para bagunçar tudo e roubar seus dados. Se você não pediu o arquivo, não abra.</p>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section class="section" id="conclusao">
+<div class="container final">
+<aside class="callout">
+<span class="eyebrow">Conclusão</span>
+<h2>Seja o herói da sua internet</h2>
+<p><strong>A internet é como uma cidade gigante cheia de coisas maravilhosas para aprender, jogar e explorar.</strong> Assim como na vida real, só precisamos usar o bom senso para passear por ela com segurança.</p>
+</aside>
+<article class="card">
+<h3>Segurança digital é responsabilidade de todos</h3>
+<p>Compartilhe essas dicas com seus filhos, pais e avós. Quando todos conhecem as regras, a internet se torna um lugar muito mais seguro para toda a família.</p>
+<p>Afinal, a melhor tecnologia de proteção que existe ainda é a nossa própria atenção.</p>
+<div class="checks">
+<div class="check">✅ Pense antes de clicar em links e botões suspeitos.</div>
+<div class="check">✅ Confirme quem enviou a mensagem antes de responder.</div>
+<div class="check">✅ Nunca compartilhe senhas por mensagem.</div>
+<div class="check">✅ Confira se o site tem “https://” e cadeado.</div>
+<div class="check">✅ Ensine essas regras para pessoas de todas as idades.</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<footer class="footer">
+<div class="container">
+  <div class="foot">
+    <span>Trabalho acadêmico • Ciência da Computação • Cibersegurança e Conscientização Digital</span>
+    <span class="pill">🔐 Segurança começa antes do clique</span>
+  </div>
+  <div class="team-section">
+    <div>
+      <div class="team-label">👨‍💻 Integrantes do grupo</div>
+      <div class="team-names">
+        <span class="team-name">Antonio Carlos</span>
+        <span class="team-name">Antonio Mello</span>
+        <span class="team-name">Antony Marcolan</span>
+        <span class="team-name">Igor Gonzatto</span>
+        <span class="team-name">Eduardo Sebben</span>
+      </div>
+    </div>
+    
+  </div>
+</div>
+</footer>
+</body>
+</html>
